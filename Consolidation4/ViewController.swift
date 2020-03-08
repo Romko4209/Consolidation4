@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     var questionLabel:UILabel!
     var answerTextField:UITextField!
     var heartLabel:UILabel!
+    var submitButton:UIButton!
     var heart = 7{
         didSet{
             heartLabel.text = "❤️ \(heart)"
@@ -44,6 +45,14 @@ class ViewController: UIViewController {
         questionLabel.font = UIFont.systemFont(ofSize: 21)
         view.addSubview(questionLabel)
         
+        //MARK::adding answerTextField
+        answerTextField = UITextField()
+        answerTextField.translatesAutoresizingMaskIntoConstraints = false
+        answerTextField.textAlignment = .center
+        answerTextField.placeholder = "Tap letters"
+        answerTextField.font = UIFont.systemFont(ofSize: 21)
+        answerTextField.isUserInteractionEnabled = false
+        view.addSubview(answerTextField)
         
         
         
@@ -55,11 +64,13 @@ class ViewController: UIViewController {
             questionView.topAnchor.constraint(equalTo: heartLabel.bottomAnchor),
             questionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             questionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            questionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25),
+            questionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
                    
             questionLabel.centerYAnchor.constraint(equalTo: questionView.centerYAnchor),
-            questionLabel.centerXAnchor.constraint(equalTo: questionView.centerXAnchor)
+            questionLabel.centerXAnchor.constraint(equalTo: questionView.centerXAnchor),
                    
+            answerTextField.topAnchor.constraint(equalTo: questionView.bottomAnchor),
+            answerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
        
         
