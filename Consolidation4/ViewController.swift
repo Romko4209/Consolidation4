@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     
     override func loadView() {
         view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         //MARK::adding hearLable
         heartLabel = UILabel()
@@ -64,9 +64,15 @@ class ViewController: UIViewController {
         submitButton.tintColor = .white
         view.addSubview(submitButton)
         
+        //MARK::buutonsView
+        let buttonsView = UIView()
+        buttonsView.translatesAutoresizingMaskIntoConstraints = false
+        buttonsView.backgroundColor = .green
+        view.addSubview(buttonsView)
+        
         //MARK::anchors
         NSLayoutConstraint.activate([
-            heartLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            heartLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor,constant: 8),
             heartLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             
             questionView.topAnchor.constraint(equalTo: heartLabel.bottomAnchor),
@@ -80,11 +86,18 @@ class ViewController: UIViewController {
             answerTextField.topAnchor.constraint(equalTo: questionView.bottomAnchor),
             answerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            submitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            submitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -16),
             submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: 44),
             submitButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            submitButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
+            submitButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            
+            buttonsView.bottomAnchor.constraint(equalTo: submitButton.topAnchor,constant: -16),
+            buttonsView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            buttonsView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            buttonsView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4)
+            
+            
         ])
        
         
