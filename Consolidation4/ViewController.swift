@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     var heartLabel:UILabel!
     var submitButton:UIButton!
     var lettersButtons = [UIButton]()
+    var buttonsView: UIView!
     
     var heart = 7{
         didSet{
@@ -67,7 +68,8 @@ class ViewController: UIViewController {
         view.addSubview(submitButton)
         
         //MARK::buutonsView
-        let buttonsView = UIView()
+        buttonsView = UIView()
+        
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonsView)
         
@@ -95,34 +97,49 @@ class ViewController: UIViewController {
             
             buttonsView.bottomAnchor.constraint(equalTo: submitButton.topAnchor,constant: -16),
             buttonsView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            buttonsView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor,constant: 8),
+            buttonsView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             buttonsView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4)
             
             
         ])
-       let widthHeight = 88
         
-        for i in 0..<4{
-            for j in 0..<4{
-                let button = UIButton(type: .system)
-                button.setTitle("?", for: .normal)
-                button.titleLabel?.font = UIFont.systemFont(ofSize: 21)
-                button.tintColor = .black
-                button.layer.borderWidth = 1
-                button.layer.borderColor = UIColor.lightGray.cgColor
-                button.frame = CGRect(x: i*widthHeight, y: j*widthHeight, width: widthHeight, height: widthHeight)
-                buttonsView.addSubview(button)
-                
-                lettersButtons.append(button)
+        //MARK::adding buttons in buttonsView
+        var topAnchor = buttonsView.topAnchor
+        var leadingAnchor = buttonsView.leadingAnchor
+        for _ in 0..<4{
+            
+        for _ in 0..<4{
+           
+            let button = UIButton(type: .system)
+            button.setTitle("?", for: .normal)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 21)
+            button.layer.borderWidth = 1
+            button.layer.borderColor = UIColor.lightGray.cgColor
+            button.translatesAutoresizingMaskIntoConstraints = false
+            buttonsView.addSubview(button)
+        
+            button.topAnchor.constraint(equalTo: topAnchor).isActive = true
+            button.widthAnchor.constraint(equalTo: buttonsView.widthAnchor, multiplier: 0.25).isActive = true
+            button.heightAnchor.constraint(equalTo: buttonsView.heightAnchor, multiplier: 0.25).isActive = true
+            button.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        
+            lettersButtons.append(button)
+            leadingAnchor = button.trailingAnchor
+            
             }
+            let endIndex = lettersButtons.endIndex - 1
+            topAnchor = lettersButtons[endIndex].bottomAnchor
+            leadingAnchor = buttonsView.leadingAnchor
         }
         
-    }
+}
+        
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         
         
@@ -132,4 +149,3 @@ class ViewController: UIViewController {
     
 
 }
-
