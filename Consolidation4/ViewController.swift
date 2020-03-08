@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     var answerTextField:UITextField!
     var heartLabel:UILabel!
     var submitButton:UIButton!
+    var lettersButtons = [UIButton]()
+    
     var heart = 7{
         didSet{
             heartLabel.text = "❤️ \(heart)"
@@ -49,7 +51,7 @@ class ViewController: UIViewController {
         answerTextField = UITextField()
         answerTextField.translatesAutoresizingMaskIntoConstraints = false
         answerTextField.textAlignment = .center
-        answerTextField.placeholder = "Tap letters"
+        answerTextField.placeholder = "?????"
         answerTextField.font = UIFont.systemFont(ofSize: 21)
         answerTextField.isUserInteractionEnabled = false
         view.addSubview(answerTextField)
@@ -67,7 +69,6 @@ class ViewController: UIViewController {
         //MARK::buutonsView
         let buttonsView = UIView()
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
-        buttonsView.backgroundColor = .green
         view.addSubview(buttonsView)
         
         //MARK::anchors
@@ -94,13 +95,27 @@ class ViewController: UIViewController {
             
             buttonsView.bottomAnchor.constraint(equalTo: submitButton.topAnchor,constant: -16),
             buttonsView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            buttonsView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            buttonsView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor,constant: 8),
             buttonsView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4)
             
             
         ])
-       
+       let widthHeight = 88
         
+        for i in 0..<4{
+            for j in 0..<4{
+                let button = UIButton(type: .system)
+                button.setTitle("?", for: .normal)
+                button.titleLabel?.font = UIFont.systemFont(ofSize: 21)
+                button.tintColor = .black
+                button.layer.borderWidth = 1
+                button.layer.borderColor = UIColor.lightGray.cgColor
+                button.frame = CGRect(x: i*widthHeight, y: j*widthHeight, width: widthHeight, height: widthHeight)
+                buttonsView.addSubview(button)
+                
+                lettersButtons.append(button)
+            }
+        }
         
     }
     
@@ -114,6 +129,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    
 
 }
 
