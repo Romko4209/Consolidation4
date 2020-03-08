@@ -11,9 +11,9 @@ import UIKit
 class ViewController: UIViewController {
 
     var questionLabel:UILabel!
-    var answerLabel:UILabel!
+    var answerLabel:UITextField!
     var heartLabel:UILabel!
-    var heart = 5{
+    var heart = 7{
         didSet{
             heartLabel.text = "❤️ \(heart)"
         }
@@ -28,10 +28,17 @@ class ViewController: UIViewController {
         heartLabel.textAlignment = .right
         heartLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(heartLabel)
+       
         
-        heartLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
-        heartLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
         
+        
+        
+        NSLayoutConstraint.activate([
+            heartLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+                   heartLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+                   
+        ])
+       
         
         
     }
