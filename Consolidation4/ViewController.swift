@@ -29,13 +29,25 @@ class ViewController: UIViewController {
         heartLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(heartLabel)
        
+        let questionView = UIView()
+        questionView.translatesAutoresizingMaskIntoConstraints = false
+        questionView.backgroundColor = UIColor.green
+       
+        view.addSubview(questionView)
+        
         
         
         
         
         NSLayoutConstraint.activate([
             heartLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-                   heartLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+            heartLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            
+            questionView.topAnchor.constraint(equalTo: heartLabel.bottomAnchor),
+            questionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            questionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            questionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.25)
+                   
                    
         ])
        
