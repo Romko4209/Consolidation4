@@ -54,7 +54,15 @@ class ViewController: UIViewController {
         answerTextField.isUserInteractionEnabled = false
         view.addSubview(answerTextField)
         
+        //MARK::adding submitButton
+        submitButton = UIButton(type: .system)
+        submitButton.translatesAutoresizingMaskIntoConstraints = false
+        submitButton.setTitle("ПЕРЕВІРИТИ", for: .normal)
+        submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 21)
         
+        submitButton.backgroundColor = .systemGray
+        submitButton.tintColor = .white
+        view.addSubview(submitButton)
         
         //MARK::anchors
         NSLayoutConstraint.activate([
@@ -62,15 +70,21 @@ class ViewController: UIViewController {
             heartLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             
             questionView.topAnchor.constraint(equalTo: heartLabel.bottomAnchor),
-            questionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            questionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            questionView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            questionView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             questionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
                    
             questionLabel.centerYAnchor.constraint(equalTo: questionView.centerYAnchor),
             questionLabel.centerXAnchor.constraint(equalTo: questionView.centerXAnchor),
                    
             answerTextField.topAnchor.constraint(equalTo: questionView.bottomAnchor),
-            answerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            answerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            submitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            submitButton.heightAnchor.constraint(equalToConstant: 44),
+            submitButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            submitButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
         ])
        
         
