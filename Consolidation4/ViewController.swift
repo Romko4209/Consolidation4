@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     var answer = [String]()
     var question = [String]()
     
+    var indexQuestionAndAnswer = 0
     var heart = 7{
         didSet{
             heartLabel.text = "❤️ \(heart)"
@@ -31,7 +32,7 @@ class ViewController: UIViewController {
         view = UIView()
         view.backgroundColor = .systemBackground
         
-        //MARK::adding hearLable
+        //MARK::adding heartLable
         heartLabel = UILabel()
         heartLabel.text = "❤️\(heart)"
         heartLabel.textAlignment = .right
@@ -46,9 +47,10 @@ class ViewController: UIViewController {
         //MARK::adding questionLabel
         questionLabel = UILabel()
         questionLabel.translatesAutoresizingMaskIntoConstraints = false
-        questionLabel.text = "What is you name?"
-        questionLabel.textAlignment = .center
+        questionLabel.text = "Some question"
         questionLabel.font = UIFont.systemFont(ofSize: 21)
+        questionLabel.textAlignment = .center
+        questionLabel.numberOfLines = 0
         view.addSubview(questionLabel)
         
         //MARK::adding answerTextField
@@ -56,14 +58,14 @@ class ViewController: UIViewController {
         answerTextField.translatesAutoresizingMaskIntoConstraints = false
         answerTextField.textAlignment = .center
         answerTextField.placeholder = "?????"
-        answerTextField.font = UIFont.systemFont(ofSize: 21)
+        answerTextField.font = UIFont.systemFont(ofSize: 25)
         answerTextField.isUserInteractionEnabled = false
         view.addSubview(answerTextField)
         
         //MARK::adding submitButton
         submitButton = UIButton(type: .system)
         submitButton.translatesAutoresizingMaskIntoConstraints = false
-        submitButton.setTitle("ПЕРЕВІРИТИ", for: .normal)
+        submitButton.setTitle("НАСТУПНЕ", for: .normal)
         submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 21)
         
         submitButton.backgroundColor = .systemGray
@@ -87,8 +89,10 @@ class ViewController: UIViewController {
             questionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
                    
             questionLabel.centerYAnchor.constraint(equalTo: questionView.centerYAnchor),
-            questionLabel.centerXAnchor.constraint(equalTo: questionView.centerXAnchor),
-                   
+            questionLabel.leadingAnchor.constraint(equalTo: questionView.leadingAnchor),
+            questionLabel.trailingAnchor.constraint(equalTo: questionView.trailingAnchor),
+            
+            
             answerTextField.topAnchor.constraint(equalTo: questionView.bottomAnchor),
             answerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
@@ -115,9 +119,10 @@ class ViewController: UIViewController {
            
             let button = UIButton(type: .system)
             button.setTitle("?", for: .normal)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 21)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor.lightGray.cgColor
+            button.tintColor = .label
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsView.addSubview(button)
         
@@ -143,20 +148,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         loadDataLevel()
-        print(question)
-        print(answer)
-        // Do any additional setup after loading the view.
+        setupLabelsAndButtons()
+       
+        
     }
 
+    
     //MARK::method loadDataLevel
     func loadDataLevel(){
        
         if let levelUrl = Bundle.main.url(forResource: "level1", withExtension: "txt"){
             if let levelContents = try? String(contentsOf: levelUrl){
-                let lines = levelContents.components(separatedBy: "\n")
-
+                var lines = levelContents.components(separatedBy: "\n")
+                lines.shuffle()
                 for line in lines{
                     if line != "" {
                         let parts = line.components(separatedBy: ": ")
@@ -173,4 +178,47 @@ class ViewController: UIViewController {
         }
     }
 
+    //MARK::method setupLabelsAndButtons
+    func setupLabelsAndButtons(){
+        questionLabel.text = question[indexQuestionAndAnswer]
+        answerTextField.placeholder = ""
+        for _ in 0..<answer[indexQuestionAndAnswer].count{
+            answerTextField.placeholder! += "?"
+        }
+        
+        var letters = [String]()
+        
+        
+        var ukrLetters = [String]()
+        for i in "абвгґдеєжзиіїйклмнопрстуфхцчшщьюя"{
+            ukrLetters.append(String(i))
+        }
+        ukrLetters.shuffle()
+          for letter in answer[indexQuestionAndAnswer]{
+                  if letters.contains(String(letter)) == false {
+                      letters.append(String(letter))
+                  }
+        }
+        
+        
+        var index = 0
+        while letters.count != 16{
+            
+            if letters.contains(ukrLetters[index]) == false {
+            letters.append(ukrLetters[index])
+            }
+            index += 1
+        }
+        
+        
+       
+        letters.shuffle()
+        if letters.count == lettersButtons.count{
+        for i in 0..<letters.count{
+            lettersButtons[i].setTitle(letters[i], for: .normal)
+        }
+        }
+        
+    }
+    
 }
