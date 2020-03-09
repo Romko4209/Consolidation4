@@ -125,7 +125,9 @@ class ViewController: UIViewController {
             button.tintColor = .label
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsView.addSubview(button)
-        
+            button.addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
+            
+            
             button.topAnchor.constraint(equalTo: topAnchor).isActive = true
             button.widthAnchor.constraint(equalTo: buttonsView.widthAnchor, multiplier: 0.25).isActive = true
             button.heightAnchor.constraint(equalTo: buttonsView.heightAnchor, multiplier: 0.25).isActive = true
@@ -216,9 +218,39 @@ class ViewController: UIViewController {
         if letters.count == lettersButtons.count{
         for i in 0..<letters.count{
             lettersButtons[i].setTitle(letters[i], for: .normal)
-        }
+            }
         }
         
     }
+    
+    @objc func letterTapped(_ sender: UIButton){
+       
+        guard let titleText = sender.titleLabel?.text else {return}
+        if answer[indexQuestionAndAnswer].contains(titleText){
+            
+            answerTextField.text = ""
+            
+            for i in answer[indexQuestionAndAnswer]{
+                let str = String(i)
+                if str == titleText {
+                    answerTextField.text! += str
+                }else{
+                    answerTextField.text! += "?"
+                }
+                
+                
+            }
+            
+            
+        }else {
+            sender.backgroundColor = .red
+            sender.isEnabled = false
+            heart -= 1
+            if heart <= 0 {
+                print("Null")
+            }
+        }
+    }
+    
     
 }
