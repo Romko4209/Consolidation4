@@ -10,12 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    //MARK::variables
     var questionLabel:UILabel!
     var answerTextField:UITextField!
     var heartLabel:UILabel!
     var submitButton:UIButton!
     var lettersButtons = [UIButton]()
     var buttonsView: UIView!
+    var answer = [String]()
+    var question = [String]()
     
     var heart = 7{
         didSet{
@@ -141,11 +144,33 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         
-        
-        
+        loadDataLevel()
+        print(question)
+        print(answer)
         // Do any additional setup after loading the view.
     }
 
-    
+    //MARK::method loadDataLevel
+    func loadDataLevel(){
+       
+        if let levelUrl = Bundle.main.url(forResource: "level1", withExtension: "txt"){
+            if let levelContents = try? String(contentsOf: levelUrl){
+                let lines = levelContents.components(separatedBy: "\n")
+
+                for line in lines{
+                    if line != "" {
+                        let parts = line.components(separatedBy: ": ")
+                        let answer = parts[0]
+                        let question = parts[1]
+                    
+                        self.answer.append(answer)
+                        self.question.append(question)
+                 
+                    }
+                }
+                
+            }
+        }
+    }
 
 }
