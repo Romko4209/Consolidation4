@@ -64,14 +64,14 @@ class ViewController: UIViewController {
         view.addSubview(answerTextField)
         
         //MARK::adding submitButton
-        submitButton = UIButton(type: .system)
-        submitButton.translatesAutoresizingMaskIntoConstraints = false
-        submitButton.setTitle("НАСТУПНЕ", for: .normal)
-        submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 21)
-        
-        submitButton.backgroundColor = .systemGray
-        submitButton.tintColor = .white
-        view.addSubview(submitButton)
+//        submitButton = UIButton(type: .system)
+//        submitButton.translatesAutoresizingMaskIntoConstraints = false
+//        submitButton.setTitle("НАСТУПНЕ", for: .normal)
+//        submitButton.titleLabel?.font = UIFont.systemFont(ofSize: 21)
+//
+//        submitButton.backgroundColor = .systemGray
+//        submitButton.tintColor = .white
+//        view.addSubview(submitButton)
         
         //MARK::buutonsView
         buttonsView = UIView()
@@ -97,13 +97,13 @@ class ViewController: UIViewController {
             answerTextField.topAnchor.constraint(equalTo: questionView.bottomAnchor),
             answerTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            submitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -16),
-            submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            submitButton.heightAnchor.constraint(equalToConstant: 44),
-            submitButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            submitButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            
-            buttonsView.bottomAnchor.constraint(equalTo: submitButton.topAnchor,constant: -16),
+//            submitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -16),
+//            submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            submitButton.heightAnchor.constraint(equalToConstant: 44),
+//            submitButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+//            submitButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+//
+            buttonsView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -60),
             buttonsView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             buttonsView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             buttonsView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4)
@@ -161,6 +161,7 @@ class ViewController: UIViewController {
     //MARK::method loadDataLevel
     func loadDataLevel(){
        
+        indexQuestionAndAnswer = 0
         if let levelUrl = Bundle.main.url(forResource: "level1", withExtension: "txt"){
             if let levelContents = try? String(contentsOf: levelUrl){
                 var lines = levelContents.components(separatedBy: "\n")
@@ -183,10 +184,14 @@ class ViewController: UIViewController {
 
     //MARK::method setupLabelsAndButtons
     func setupLabelsAndButtons(){
+    
+        
+        usedLetters.removeAll()
         questionLabel.text = question[indexQuestionAndAnswer]
-        answerTextField.placeholder = ""
+        answerTextField.text = ""
+        
         for _ in 0..<answer[indexQuestionAndAnswer].count{
-            answerTextField.placeholder! += "?"
+            answerTextField.text! += "?"
         }
         
         var letters = [String]()
@@ -219,6 +224,8 @@ class ViewController: UIViewController {
         if letters.count == lettersButtons.count{
         for i in 0..<letters.count{
             lettersButtons[i].setTitle(letters[i], for: .normal)
+            lettersButtons[i].backgroundColor = .systemBackground
+            lettersButtons[i].isEnabled = true
             }
         }
         
@@ -250,7 +257,28 @@ class ViewController: UIViewController {
                 
             }
             
-            
+            if !(answerTextField.text?.contains("?"))!{
+                let ac = UIAlertController(title: "SO THAT'S RIGHT", message: nil, preferredStyle: .actionSheet)
+                let buttonNextWord = UIAlertAction(title: "Next word", style: .default) { [weak self](buttonNextWord) in
+                    self?.indexQuestionAndAnswer += 1
+                    if(self?.indexQuestionAndAnswer != 7){
+                        self?.setupLabelsAndButtons()
+                        
+                    }else{
+                        let alert = UIAlertController(title: "You passed the first level!", message: nil, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { [weak self](action) in
+                            self?.loadDataLevel()
+                            self?.setupLabelsAndButtons()
+                            self?.heart = 7
+                        }))
+                        self?.present(alert,animated: true)
+                    }
+                }
+                
+                ac.addAction(buttonNextWord)
+                ac.view.backgroundColor = .green
+                present(ac,animated: true)
+            }
             
             
         }else {
@@ -258,10 +286,20 @@ class ViewController: UIViewController {
             sender.isEnabled = false
             heart -= 1
             if heart <= 0 {
-                print("Null")
+                questionLabel.backgroundColor = .red
+                let alert = UIAlertController(title: "Game over!", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Start over", style: .default, handler: { [weak self](action) in
+                    self?.questionLabel.backgroundColor = .systemBackground
+                    self?.loadDataLevel()
+                    self?.setupLabelsAndButtons()
+                    self?.heart = 7
+                }))
+                present(alert,animated: true)
             }
         }
     }
+    
+    
     
     
 }
