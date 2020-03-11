@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     var lettersButtons = [UIButton]()
     var buttonsView: UIView!
     var answer = [String]()
+    var usedLetters = [String]()
     var question = [String]()
     
     var indexQuestionAndAnswer = 0
@@ -192,7 +193,7 @@ class ViewController: UIViewController {
         
         
         var ukrLetters = [String]()
-        for i in "абвгґдеєжзиіїйклмнопрстуфхцчшщьюя"{
+        for i in "АБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ"{
             ukrLetters.append(String(i))
         }
         ukrLetters.shuffle()
@@ -223,23 +224,33 @@ class ViewController: UIViewController {
         
     }
     
+    //MARK::tap letter button
     @objc func letterTapped(_ sender: UIButton){
        
-        guard let titleText = sender.titleLabel?.text else {return}
-        if answer[indexQuestionAndAnswer].contains(titleText){
+        guard let buttonTitleText = sender.titleLabel?.text else {return}
+        if answer[indexQuestionAndAnswer].contains(buttonTitleText){
             
+            sender.backgroundColor = .green
+            sender.isHidden = false
+            
+            usedLetters.append(buttonTitleText)
             answerTextField.text = ""
             
-            for i in answer[indexQuestionAndAnswer]{
+            let answer = self.answer[indexQuestionAndAnswer]
+            
+            for i in answer{
+                
                 let str = String(i)
-                if str == titleText {
+                
+                if usedLetters.contains(str){
                     answerTextField.text! += str
                 }else{
                     answerTextField.text! += "?"
                 }
                 
-                
             }
+            
+            
             
             
         }else {
